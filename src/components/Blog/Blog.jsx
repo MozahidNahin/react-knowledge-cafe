@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+import { PiBookmarksSimple } from "react-icons/pi";
 
-const Blog = ({blog}) => {
-    const {title, cover, author, author_img, posted_date, reading_time, hashtags} = blog;
+const Blog = ({blog, handleAddToBookmark, handleMarkAsRead}) => {
+    const {id, title, cover, author, author_img, posted_date, reading_time, hashtags} = blog;
     return (
-        <div>
-            <img src={cover} alt={`Cover picture of the the title ${title}`} />
-            <div className='flex justify-between'>
+        <div className='mb-20  space-y-4'>
+            <img className='w-full mb-8' src={cover} alt={`Cover picture of the the title ${title}`} />
+            <div className='flex justify-between mb-4'>
                 <div className='flex'>
                     <img className='w-14' src={author_img} alt="" />
                     <div className='ml-6'>
@@ -15,20 +16,24 @@ const Blog = ({blog}) => {
                 </div>
                 <div>
                     <span>{reading_time} min read</span>
+                    <button onClick={()=> handleAddToBookmark(blog)} className='ml-2 text-2xl items-center'><PiBookmarksSimple /></button>
                 </div>
             </div>
-            <h2 className='text-4xl'> {title} </h2>
+            <h2 className='text-2xl font-bold mb-2'> {title} </h2>
             <p>
                 {
                     hashtags.map((hash, idx) => <span key={idx}><a href="">#{hash}</a></span>)
                 }
             </p>
+            <button onClick={() => handleMarkAsRead(id, reading_time)} className='text-purple-700 font-bold underline'>Mark As Read</button>
         </div>
     );
 };
 
 Blog.propTypes = {
-    blog: PropTypes.object.isRequired
+    blog: PropTypes.object,
+    handleAddToBookmark: PropTypes.func,
+    handleMarkAsRead: PropTypes.func
 }
 
 export default Blog;
